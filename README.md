@@ -21,7 +21,7 @@ Or build from source:
 ```sh
 git clone https://github.com/hatedabamboo/bumpwf
 cd bumpwf
-make build
+make
 make install
 ```
 
