@@ -6,7 +6,7 @@
               |_|            
 ```
 
-# bumpwf — Bump GitHub Actions Workflows
+# [bumpwf](https://notes.hatedabamboo.me/project-bumpwf/) — Bump GitHub Actions Workflows
 
 A CLI tool that scans `.github/workflows/` for outdated GitHub Actions and interactively (or silently) updates them. Also can replace current version (`actions/checkout@v4`) with the commit tag (`34e114876b0b11c390a56381ad16ebd13914f8d5`). Prevent those pesky clawed clankers from hijacking your workflows!
 
@@ -52,11 +52,11 @@ bumpwf [options]
 Set `GH_TOKEN` to a GitHub personal access token for authenticated API calls:
 
 ```sh
-export GH_TOKEN=ghp_...
+export GH_TOKEN="ghp_..."
 bumpwf
 ```
 
-Without a token, GitHub limits anonymous requests to **60/hour**. If you hit the limit, either set `GH_TOKEN` or use a VPN.
+Without a token, GitHub limits anonymous requests to 60/hour. If you hit the limit, either set `GH_TOKEN` or use a VPN.
 
 ## Example usage
 
