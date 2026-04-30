@@ -14,7 +14,9 @@ BEGIN { prev_date = "" }
     sha=$1; date=$2; short=substr(sha,1,7)
     msg=""; for(i=3;i<=NF;i++) msg=(msg==""?$i:msg" "$i)
     type="chore"
-    if (match(msg,/^(feat|fix|refactor|docs|test|chore|style|perf|ci|build)[(:!]/,arr)) {
+    if (match(msg,/^\(([a-z]+)\)\s*/,arr)) {
+        type=arr[1]; sub(/^\([a-z]+\)\s*/,"",msg)
+    } else if (match(msg,/^(feat|fix|refactor|docs|test|chore|style|perf|ci|build)[(:!]/,arr)) {
         type=arr[1]; sub(/^[a-z]+(\([^)]*\))?!?:\s*/,"",msg)
     }
     if (date!=prev_date) { if(prev_date!="") print ""; print "## "date; prev_date=date }
