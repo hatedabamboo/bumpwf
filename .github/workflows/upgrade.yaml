@@ -27,9 +27,7 @@ jobs:
 
       - name: Upgrade workflows
         run: |
-          env
-          ls -l "$GOPATH"
-          $GOPATH/bumpwf -A -s -v
+          "$(go env GOPATH)/bin/bumpwf" -A -s -v
 
       - name: Create labels
         env:
