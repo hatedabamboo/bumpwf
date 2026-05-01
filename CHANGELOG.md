@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2026-05-01
+
+- (feat) Rename bumpflow to bumpflow [6ee7c7e](https://github.com/hatedabamboo/bumpflow/commit/6ee7c7e00bcce60219d722440854cc332c0b2ed7)
+- (docs) Add example workflow to use in GH actions (#3) [9b6c895](https://github.com/hatedabamboo/bumpflow/commit/9b6c8952c4ef87225040358402b802461a478db4)
+
 ## 2026-04-30
 
 - (chore) Add changelog and its generation [71e42e1](https://github.com/hatedabamboo/bumpflow/commit/71e42e1c531cfd6d7eae0a33966a97d13610c1ea) [27ee603](https://github.com/hatedabamboo/bumpflow/commit/27ee6030ed835a2b6e9b5abcf5a1357afbb0df24)
