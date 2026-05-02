@@ -10,6 +10,10 @@
 
 ```
 
+![test](https://github.com/hatedabamboo/bumpflow/actions/workflows/test.yaml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hatedabamboo/bumpflow?)](https://goreportcard.com/report/github.com/hatedabamboo/bumpflow)
+[![Go version](https://img.shields.io/github/go-mod/go-version/hatedabamboo/bumpflow)](https://github.com/hatedabamboo/bumpflow)
+
 # [bumpflow](https://notes.hatedabamboo.me/project-bumpflow/) — Bump GitHub Actions Workflows
 
 A CLI tool that scans `.github/workflows/` for outdated GitHub Actions and interactively (or silently) updates them. Also can replace current version (`actions/checkout@v4`) with the commit tag (`34e114876b0b11c390a56381ad16ebd13914f8d5`). Prevent those pesky clawed clankers from hijacking your workflows!

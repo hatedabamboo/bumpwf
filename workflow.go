@@ -73,17 +73,25 @@ func rewriteFile(wfFile string, pattern *regexp.Regexp, replacement string) {
 	fmt.Printf("  %s %s\n", cGreen("Updated"), wfFile)
 }
 
-func applyUpdate(a action, ref string) {
-	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(a.actionRef) + `@)[^\s#]+`)
+func applyUpdate(a action, ref, comment string) {
+	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(a.actionRef) + `@)[^\s#]+(\s*#[^\n]*)?`)
+	replacement := ref
+	if comment != "" {
+		replacement = ref + " # " + comment
+	}
 	for _, wfFile := range a.files {
-		rewriteFile(wfFile, pattern, ref)
+		rewriteFile(wfFile, pattern, replacement)
 	}
 }
 
 func applyReplace(actionRef, from, to string, files []string) {
-	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(actionRef) + `@)` + regexp.QuoteMeta(from))
+	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(actionRef) + `@)` + regexp.QuoteMeta(from) + `(\s*#[^\n]*)?`)
+	replacement := to
+	if hashRe.MatchString(to) {
+		replacement = to + " # " + from
+	}
 	for _, wfFile := range files {
-		rewriteFile(wfFile, pattern, to)
+		rewriteFile(wfFile, pattern, replacement)
 	}
 }
 
@@ -242,7 +250,7 @@ func scan(cfg config) ([]action, bool) {
 	return result, len(fetchErrs) > 0
 }
 
-func pickRef(a action, cfg config, r *bufio.Reader) (string, bool) {
+func pickRef(a action, cfg config, r *bufio.Reader) (string, string, bool) {
 	for i, t := range a.availableTags {
 		fmt.Printf("  [%d]\t\t%s\t%s\n", i+1, cGreen(t.tag), cDim("("+shortSHA(t.sha)+")"))
 	}
@@ -252,21 +260,21 @@ func pickRef(a action, cfg config, r *bufio.Reader) (string, bool) {
 	line = strings.TrimSpace(line)
 
 	if line == "" {
-		return "", false
+		return "", "", false
 	}
 
 	n, err := strconv.Atoi(line)
 	if err != nil || n < 1 || n > len(a.availableTags) {
 		fmt.Println(cRed("  Invalid choice."))
-		return "", false
+		return "", "", false
 	}
 
 	selected := a.availableTags[n-1]
 	if cfg.useTag {
-		return selected.tag, true
+		return selected.tag, "", true
 	}
 	if cfg.useHash {
-		return selected.sha, true
+		return selected.sha, selected.tag, true
 	}
 	fmt.Printf("  [t] Tag:  %s\n", cGreen(selected.tag))
 	fmt.Printf("  [s] SHA:  %s\n", cCyan(selected.sha))
@@ -274,11 +282,11 @@ func pickRef(a action, cfg config, r *bufio.Reader) (string, bool) {
 	choice, _ := r.ReadString('\n')
 	switch strings.TrimSpace(choice) {
 	case "t":
-		return selected.tag, true
+		return selected.tag, "", true
 	case "s":
-		return selected.sha, true
+		return selected.sha, selected.tag, true
 	default:
-		return "", false
+		return "", "", false
 	}
 }
 
