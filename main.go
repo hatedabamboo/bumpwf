@@ -142,11 +142,13 @@ func main() {
 		fmt.Printf("\n%s\n", bold(fmt.Sprintf("Updating all %d outdated action(s)...", len(remaining))))
 		for _, a := range remaining {
 			ref := a.latestSHA
+			comment := a.latestTag
 			if cfg.useTag {
 				ref = a.latestTag
+				comment = ""
 			}
 			fmt.Printf("\nUpdating %s %s %s\n\n", bold(a.actionRef), cDim("→"), cGreen(ref))
-			applyUpdate(a, ref)
+			applyUpdate(a, ref, comment)
 		}
 		fmt.Println(cGreen("\nAll actions updated!"))
 		return
@@ -194,13 +196,13 @@ func main() {
 		remaining = append(remaining[:choice-1], remaining[choice:]...)
 
 		fmt.Printf("\nUpdating %s:\n", bold(a.actionRef))
-		ref, ok := pickRef(a, cfg, reader)
+		ref, comment, ok := pickRef(a, cfg, reader)
 		if !ok {
 			fmt.Println(cYellow("  Skipped."))
 			continue
 		}
 		fmt.Println()
-		applyUpdate(a, ref)
+		applyUpdate(a, ref, comment)
 		fmt.Println()
 		fmt.Println(cGreen("  Done."))
 	}
