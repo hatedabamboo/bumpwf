@@ -131,8 +131,21 @@ func isGitRepo() bool {
 }
 
 func main() {
-	cfg := parseArgs(loadConfigFile())
+	fileCfg, cfgFileFound := loadConfigFile()
+	cfg := parseArgs(fileCfg)
 	initLogger(cfg.verbose)
+	if cfgFileFound {
+		slog.Debug("config file loaded", "path", configFilePath,
+			"always_sha", fileCfg.useHash,
+			"always_tag", fileCfg.useTag,
+			"count", fileCfg.tagCount,
+			"update_all", fileCfg.updateAll,
+			"dry_run", fileCfg.dryRun,
+			"verbose", fileCfg.verbose,
+		)
+	} else {
+		slog.Debug("no config file found", "path", configFilePath)
+	}
 
 	if !isGitRepo() {
 		fmt.Fprintln(os.Stderr, cRed("Error: not inside a git repository. Run from the repo root."))

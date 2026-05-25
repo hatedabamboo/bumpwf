@@ -49,11 +49,27 @@ bumpflow [options]
 | `-s` | `--sha` | Always use commit hashes when updating (skips the prompt) |
 | `-A` | `--update-all` | Update all outdated actions without prompting (uses hash by default; respects `-t` or `-s`) |
 | `-r` | `--replace` | Convert pinned tags↔SHAs without upgrading versions |
+| `-d` | `--dry-run` | Preview what would be updated without modifying any files |
 | `-v` | `--verbose` | Enable verbose logging |
 | `-V` | `--version` | Show version |
 | `-h` | `--help` | Show usage |
 
 `-t` and `-s` are mutually exclusive. `-A` and `-r` are mutually exclusive.
+
+## Config file
+
+Persistent defaults can be set in a `.bumpflow.yaml` file at the repo root. CLI flags always take precedence.
+
+```yaml
+always_sha: true    # same as -s
+always_tag: false   # same as -t
+count: 5            # same as -n
+update_all: false   # same as -A
+verbose: false      # same as -v
+dry_run: false      # same as -d
+```
+
+Only the keys you want to override need to be present.
 
 ## Authentication
 

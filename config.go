@@ -10,14 +10,14 @@ import (
 
 const configFilePath = ".bumpflow.yaml"
 
-func loadConfigFile() config {
+func loadConfigFile() (config, bool) {
 	var cfg config
 	f, err := os.Open(configFilePath)
 	if err != nil {
 		if !os.IsNotExist(err) {
 			fmt.Fprintf(os.Stderr, "Warning: could not read %s: %v\n", configFilePath, err)
 		}
-		return cfg
+		return cfg, false
 	}
 	defer f.Close()
 
@@ -33,6 +33,10 @@ func loadConfigFile() config {
 		}
 		key := strings.TrimSpace(parts[0])
 		val := strings.TrimSpace(parts[1])
+		// strip inline comments
+		if i := strings.Index(val, "#"); i >= 0 {
+			val = strings.TrimSpace(val[:i])
+		}
 
 		switch key {
 		case "always_sha":
@@ -54,5 +58,5 @@ func loadConfigFile() config {
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintf(os.Stderr, "Warning: error reading %s: %v\n", configFilePath, err)
 	}
-	return cfg
+	return cfg, true
 }
