@@ -78,7 +78,7 @@ func rewriteFile(wfFile string, pattern *regexp.Regexp, replacement string, dryR
 }
 
 func applyUpdate(a action, ref, comment string, dryRun bool) {
-	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(a.actionRef) + `@)[^\s#]+(\s*#[^\n]*)?`)
+	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(a.actionRef) + `@)[^\s#]+([ \t]*#[^\n]*)?`)
 	replacement := ref
 	if comment != "" {
 		replacement = ref + " # " + comment
@@ -89,7 +89,7 @@ func applyUpdate(a action, ref, comment string, dryRun bool) {
 }
 
 func applyReplace(actionRef, from, to string, files []string, dryRun bool) {
-	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(actionRef) + `@)` + regexp.QuoteMeta(from) + `(\s*#[^\n]*)?`)
+	pattern := regexp.MustCompile(`(uses:\s+` + regexp.QuoteMeta(actionRef) + `@)` + regexp.QuoteMeta(from) + `([ \t]*#[^\n]*)?`)
 	replacement := to
 	if hashRe.MatchString(to) {
 		replacement = to + " # " + from
