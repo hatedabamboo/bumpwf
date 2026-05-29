@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2026-05-29
+
+- (fix) Don't remove next line comment (#6) [ce9e151](https://github.com/hatedabamboo/bumpflow/commit/ce9e1514f9eb9e6e77eb8963dd0797df4c853d90)
+
 ## 2026-05-25
 
 - (feat) Release v1.0.0: added `--dry-run` option, added `.bumpflow.yaml` config file [ab8be39](https://github.com/hatedabamboo/bumpflow/commit/ab8be39c12a06464d1dd75c860da10e8b398f82b)
